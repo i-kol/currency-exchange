@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
-@WebServlet("/exchangeRates")
+@WebServlet("/exchange-rates")
 public class ExchangeRateServlet extends HttpServlet {
     private final ExchangeRateService exchangeRateService = ExchangeRateService.getInstance();
 
@@ -20,13 +20,13 @@ public class ExchangeRateServlet extends HttpServlet {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        Integer currencyId = Integer.valueOf(req.getParameter("id"));
+        Long currencyId = Long.valueOf(req.getParameter("id"));
 
         try (PrintWriter printWriter = resp.getWriter()) {
             printWriter.write("<h1>Курсы валют</h1>");
             printWriter.write("<ul");
 
-            exchangeRateService.findAllByExchangeRateId(currencyId).forEach(exchangeRateDto -> {
+            exchangeRateService.findAll().forEach(exchangeRateDto -> {
                 printWriter.write("""
                         <li>
                             <a href="/exchange?id=%d">%s</a>

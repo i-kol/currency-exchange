@@ -2,8 +2,9 @@ package com.example.dto;
 
 import java.math.BigDecimal;
 
-public record ExchangeRateDto(int id, int baseCurrencyId, int targetCurrencyId, BigDecimal rate) {
-    public int getId() {
+public record ExchangeRateDto(long id, int baseCurrencyId, int targetCurrencyId, BigDecimal rate) {
+
+    public long getId() {
         return id;
     }
 

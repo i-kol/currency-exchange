@@ -19,6 +19,10 @@ public class CurrencyDao implements Dao<Integer, Currency> {
     private CurrencyDao() {
     }
 
+    public static CurrencyDao getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public List<Currency> findAll() {
         List<Currency> currencies = new ArrayList<>();
@@ -39,19 +43,8 @@ public class CurrencyDao implements Dao<Integer, Currency> {
         }
     }
 
-    @Override
-    public Optional<Currency> findById(Integer id) {
+    public Optional<Currency> findByCode(Integer id) {
         return Optional.empty();
-    }
-
-    @Override
-    public boolean delete(Integer id) {
-        return false;
-    }
-
-    @Override
-    public void update(Currency entity) {
-
     }
 
     @Override
@@ -59,13 +52,9 @@ public class CurrencyDao implements Dao<Integer, Currency> {
         return null;
     }
 
-    public static CurrencyDao getInstance() {
-        return INSTANCE;
-    }
-
     private Currency buildCurrency(ResultSet resultSet) throws SQLException {
         return new Currency(
-                resultSet.getObject("id", Integer.class),
+                resultSet.getObject("id", Long.class),
                 resultSet.getObject("code", String.class),
                 resultSet.getObject("fullName", String.class),
                 resultSet.getObject("sign", String.class)

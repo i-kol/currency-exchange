@@ -14,8 +14,8 @@ public class ExchangeRateService {
     private ExchangeRateService() {
     }
 
-    public List<ExchangeRateDto> findAllByExchangeRateId(int id) {
-        return exchangeRateDao.findAllByExchangeRateId(id).stream()
+    public List<ExchangeRateDto> findAll() {
+        return exchangeRateDao.findAll().stream()
                 .map(exchangeRate -> new ExchangeRateDto(
                         exchangeRate.getId(), exchangeRate.getBaseCurrencyId(), exchangeRate.getBaseCurrencyId(), exchangeRate.getRate()
                 )).collect(Collectors.toList());

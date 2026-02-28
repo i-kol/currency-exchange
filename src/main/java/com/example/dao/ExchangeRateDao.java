@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
     private static final ExchangeRateDao INSTANCE = new ExchangeRateDao();
-    private static final String FIND_ALL_BY_EXCHANGE_RATE_ID = "SELECT ID, BaseCurrencyId, TargetCurrencyId, Rate FROM ExchangeRates WHERE ID=?";
+    private static final String FIND_ALL = "SELECT ID, BaseCurrencyId, TargetCurrencyId, Rate FROM ExchangeRates WHERE ID=?";
 
     private ExchangeRateDao() {
     }
@@ -23,9 +23,10 @@ public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
         return INSTANCE;
     }
 
-    public List<ExchangeRate> findAllByExchangeRateId(int id) {
+    @Override
+    public List<ExchangeRate> findAll() {
         try (Connection connection = ConnectionManager.get();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_BY_EXCHANGE_RATE_ID)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)) {
 
             preparedStatement.setObject(1, "id");
 
@@ -38,29 +39,17 @@ public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
             }
 
             return exchangeRates;
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Override
-    public List<ExchangeRate> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Optional<ExchangeRate> findById(Integer id) {
+    public Optional<ExchangeRate> findByCurrencyIds(Integer id) {
         return Optional.empty();
     }
 
-    @Override
-    public boolean delete(Integer id) {
-        return false;
-    }
-
-    @Override
     public void update(ExchangeRate entity) {
-
     }
 
     @Override
@@ -70,7 +59,7 @@ public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
 
     private ExchangeRate buildExchangeRates(ResultSet resultSet) throws SQLException {
         return new ExchangeRate(
-                resultSet.getObject("id", Integer.class),
+                resultSet.getObject("id", Long.class),
                 resultSet.getObject("baseCurrencyId", Integer.class),
                 resultSet.getObject("targetCurrencyId", Integer.class),
                 resultSet.getObject("rate", BigDecimal.class)

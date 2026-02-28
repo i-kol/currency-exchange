@@ -1,7 +1,8 @@
 package com.example.dto;
 
-public record CurrencyDto(int id, String code, String fullName, String sign) {
-    public int getId() {
+public record CurrencyDto(long id, String code, String fullName, String sign) {
+
+    public long getId() {
         return id;
     }
 
