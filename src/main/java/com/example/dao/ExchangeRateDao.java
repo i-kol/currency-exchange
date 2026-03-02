@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
     private static final ExchangeRateDao INSTANCE = new ExchangeRateDao();
-    private static final String FIND_ALL = "SELECT ID, BaseCurrencyId, TargetCurrencyId, Rate FROM ExchangeRates WHERE ID=?";
+    private static final String FIND_ALL = "SELECT ID, BaseCurrencyId, TargetCurrencyId, Rate FROM ExchangeRates";
 
     private ExchangeRateDao() {
     }
@@ -25,14 +25,12 @@ public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
 
     @Override
     public List<ExchangeRate> findAll() {
+        List<ExchangeRate> exchangeRates = new ArrayList<>();
+
         try (Connection connection = ConnectionManager.get();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)) {
 
-            preparedStatement.setObject(1, "id");
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            List<ExchangeRate> exchangeRates = new ArrayList<>();
 
             while (resultSet.next()) {
                 exchangeRates.add(buildExchangeRates(resultSet));

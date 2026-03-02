@@ -20,18 +20,16 @@ public class ExchangeRateServlet extends HttpServlet {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        Long currencyId = Long.valueOf(req.getParameter("id"));
-
         try (PrintWriter printWriter = resp.getWriter()) {
             printWriter.write("<h1>Курсы валют</h1>");
-            printWriter.write("<ul");
+            printWriter.write("<ul>");
 
             exchangeRateService.findAll().forEach(exchangeRateDto -> {
                 printWriter.write("""
                         <li>
-                            <a href="/exchange?id=%d">%s</a>
+                            <a href="/exchange?id=%d">%f</a>
                         </li>
-                        """.formatted(exchangeRateDto.getBaseCurrencyId()));
+                        """.formatted(exchangeRateDto.getId(), exchangeRateDto.getRate()));
             });
 
             printWriter.write("</ul");
