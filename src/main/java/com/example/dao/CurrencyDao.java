@@ -14,7 +14,8 @@ import java.util.Optional;
 public class CurrencyDao implements Dao<Integer, Currency> {
     private static final CurrencyDao INSTANCE = new CurrencyDao();
 
-    private static final String FIND_ALL = "SELECT ID, Code, FullName, Sign FROM Currencies";
+    private static final String FIND_ALL_SQL = "SELECT ID, Code, FullName, Sign FROM Currencies";
+    private static final String FIND_BY_CODE_SQL = "SELECT ID, Code, FullName, Sign FROM Currencies WHERE Code=?";
 
     private CurrencyDao() {
     }
@@ -28,9 +29,8 @@ public class CurrencyDao implements Dao<Integer, Currency> {
         List<Currency> currencies = new ArrayList<>();
 
         try (Connection connection = ConnectionManager.get();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)) {
-
-            ResultSet resultSet = preparedStatement.executeQuery();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SQL);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
                 currencies.add(buildCurrency(resultSet));
@@ -43,8 +43,23 @@ public class CurrencyDao implements Dao<Integer, Currency> {
         }
     }
 
-    public Optional<Currency> findByCode(Integer id) {
-        return Optional.empty();
+    public Optional<Currency> findByCode(String code) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_CODE_SQL)) {
+
+            preparedStatement.setString(1, code);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(buildCurrency(resultSet));
+                }
+            }
+
+            return Optional.empty();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);  //TODO: сделать релевантные исключения "Валюта с таким code не найдена"
+        }
     }
 
     @Override

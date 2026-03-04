@@ -28,9 +28,8 @@ public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
         List<ExchangeRate> exchangeRates = new ArrayList<>();
 
         try (Connection connection = ConnectionManager.get();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)) {
-
-            ResultSet resultSet = preparedStatement.executeQuery();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
                 exchangeRates.add(buildExchangeRates(resultSet));
@@ -43,7 +42,7 @@ public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
         }
     }
 
-    public Optional<ExchangeRate> findByCurrencyIds(Integer id) {
+    public Optional<ExchangeRate> findByCurrencyIds(Integer ids) {
         return Optional.empty();
     }
 
