@@ -6,5 +6,5 @@ public interface Dao<K, T> {
 
     List<T> findAll();
 
-    T save(T entity);
+    T add(T entity);
 }

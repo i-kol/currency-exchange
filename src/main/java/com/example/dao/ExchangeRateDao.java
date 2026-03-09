@@ -50,16 +50,16 @@ public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
     }
 
     @Override
-    public ExchangeRate save(ExchangeRate entity) {
+    public ExchangeRate add(ExchangeRate entity) {
         return null;
     }
 
     private ExchangeRate buildExchangeRates(ResultSet resultSet) throws SQLException {
         return new ExchangeRate(
-                resultSet.getObject("id", Long.class),
-                resultSet.getObject("baseCurrencyId", Integer.class),
-                resultSet.getObject("targetCurrencyId", Integer.class),
-                resultSet.getObject("rate", BigDecimal.class)
+                resultSet.getLong("id"),
+                resultSet.getInt("baseCurrencyId"),
+                resultSet.getInt("targetCurrencyId"),
+                resultSet.getBigDecimal("rate")
         );
     }
 }

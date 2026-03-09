@@ -4,6 +4,7 @@ import com.example.dao.CurrencyDao;
 import com.example.dto.CurrencyDto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CurrencyService {
@@ -19,6 +20,13 @@ public class CurrencyService {
                 .map(currency -> new CurrencyDto(
                         currency.getId(), currency.getCode(), currency.getFullName(), currency.getSign()
                 )).collect(Collectors.toList());
+    }
+
+    public Optional<CurrencyDto> findByCode(String code) {
+        return currencyDao.findByCode(code)
+                .map(currency -> new CurrencyDto(
+                        currency.getId(), currency.getCode(), currency.getFullName(), currency.getSign()
+                ));
     }
 
     public static CurrencyService getInstance() {
