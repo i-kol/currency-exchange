@@ -1,5 +1,6 @@
 package com.example.dao;
 
+import com.example.exception.DataAccessException;
 import com.example.util.ConnectionManager;
 import com.example.entity.Currency;
 
@@ -35,7 +36,7 @@ public class CurrencyDao implements Dao<Integer, Currency> {
             }
             return currencies;
         } catch (SQLException e) {
-            throw new RuntimeException(e); //TODO: создать DataAccessException "Failed to get currency"
+            throw new DataAccessException("Failed to get currencies");
         }
     }
 
@@ -52,12 +53,13 @@ public class CurrencyDao implements Dao<Integer, Currency> {
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new RuntimeException(e);  //TODO: сделать релевантные исключения "Валюта с таким code не найдена"
+            throw new DataAccessException("Failed to get currency: " + code);
         }
     }
 
     @Override
-    public Currency add(Currency currency) {
+    public Long save(Currency currency) {
+
         try (Connection connection = ConnectionManager.get();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_CURRENCY_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -68,15 +70,14 @@ public class CurrencyDao implements Dao<Integer, Currency> {
 
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    generatedKeys.getLong(1);
+                    return generatedKeys.getLong(1);
                 } else {
-                    throw new SQLException("Currency creation failed, id not received!");
+                    throw new SQLException("Adding currency failed, ID not received!");
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException("Failed to add currency: " + currency.getCode());
         }
-        return currency;
     }
 
     private Currency getCurrency(ResultSet resultSet) throws SQLException {

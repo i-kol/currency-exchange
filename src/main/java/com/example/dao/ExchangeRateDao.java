@@ -50,7 +50,7 @@ public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
     }
 
     @Override
-    public ExchangeRate add(ExchangeRate entity) {
+    public Long save(ExchangeRate entity) {
         return null;
     }
 
