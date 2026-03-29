@@ -3,7 +3,6 @@ package com.example.dao;
 import com.example.entity.ExchangeRate;
 import com.example.util.ConnectionManager;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +26,7 @@ public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
     public List<ExchangeRate> findAll() {
         List<ExchangeRate> exchangeRates = new ArrayList<>();
 
-        try (Connection connection = ConnectionManager.get();
+        try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 

@@ -27,7 +27,7 @@ public class CurrencyDao implements Dao<Integer, Currency> {
     public List<Currency> findAll() {
         List<Currency> currencies = new ArrayList<>();
 
-        try (Connection connection = ConnectionManager.get();
+        try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_SQL);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -36,12 +36,12 @@ public class CurrencyDao implements Dao<Integer, Currency> {
             }
             return currencies;
         } catch (SQLException e) {
-            throw new DataAccessException("Failed to get currencies");
+            throw new DataAccessException("Failed to getConnection currencies");
         }
     }
 
     public Optional<Currency> findByCode(String code) {
-        try (Connection connection = ConnectionManager.get();
+        try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_CODE_SQL)) {
 
             preparedStatement.setString(1, code);
@@ -53,14 +53,14 @@ public class CurrencyDao implements Dao<Integer, Currency> {
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new DataAccessException("Failed to get currency: " + code);
+            throw new DataAccessException("Failed to getConnection currency: " + code);
         }
     }
 
     @Override
     public Long save(Currency currency) {
 
-        try (Connection connection = ConnectionManager.get();
+        try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_CURRENCY_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, currency.getCode());
@@ -70,7 +70,9 @@ public class CurrencyDao implements Dao<Integer, Currency> {
 
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getLong(1);
+                    long id = generatedKeys.getLong(1);
+//                    connection.commit(); //TODO: определитть, нужна или нет?
+                    return id;
                 } else {
                     throw new SQLException("Adding currency failed, ID not received!");
                 }

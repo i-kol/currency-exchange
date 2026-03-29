@@ -5,10 +5,9 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
-@EqualsAndHashCode
-@ToString
 public class ExchangeRate {
     private long id;
     private int baseCurrencyId;
