@@ -17,6 +17,8 @@ import java.util.Optional;
 public class CurrencyServlet extends HttpServlet {
     private final CurrencyService currencyService = CurrencyService.getInstance();
 
+    // http://localhost:8081/currency?code=USD
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
@@ -30,14 +32,13 @@ public class CurrencyServlet extends HttpServlet {
             printWriter.write("<h1>Выбранная валюта:</h1>");
             printWriter.write("<ul>");
 
-            // http://localhost:8081/currency?code=USD
+
             if (currency.isPresent()) {
                 CurrencyResponseDto currencyResponseDto = currency.get();
                 printWriter.write("""
-                        <li>
-                            <br>%d - %s</br>
-                        </li>
-                        """.formatted(currencyResponseDto.getId(), currencyResponseDto.getFullName()));
+                            <br>%d. %s - %s - %s</br>
+                        """.formatted(currencyResponseDto.getId(), currencyResponseDto.getCode(),
+                        currencyResponseDto.getFullName(), currencyResponseDto.getSign()));
 
             } else {
                 printWriter.write("<li>Валюта с кодом '" + code + "' не найдена.</li>");

@@ -31,7 +31,7 @@ public class CurrencyService {
                 ));
     }
 
-    public CurrencyResponseDto save(CurrencyRequestDto currencyRequestDto) {
+    public CurrencyResponseDto add(CurrencyRequestDto currencyRequestDto) {
 
         String code = currencyRequestDto.getCode();
         String fullName = currencyRequestDto.getFullName();
@@ -39,7 +39,7 @@ public class CurrencyService {
 
         Currency currency = new Currency(code, fullName, sign);
 
-        long id = currencyDao.save(currency);
+        long id = currencyDao.add(currency);
 
         return new CurrencyResponseDto(id, code, fullName, sign);
     }

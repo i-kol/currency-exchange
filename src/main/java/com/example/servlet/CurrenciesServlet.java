@@ -30,9 +30,10 @@ public class CurrenciesServlet extends HttpServlet {
             currencyService.findAll().forEach(currencyDto -> {
                 printWriter.write("""
                         <li>
-                            <a href="/exchange?id=%d">%s</a>
+                            <a href="/exchange?id=%d">%d. %s - %s - %s</a>
                         </li>
-                        """.formatted(currencyDto.getId(), currencyDto.getFullName()));
+                        """.formatted(currencyDto.getId(), currencyDto.getId(), currencyDto.getCode(),
+                        currencyDto.getFullName(), currencyDto.getSign()));
             });
 
             printWriter.write("</ul>");
@@ -49,7 +50,7 @@ public class CurrenciesServlet extends HttpServlet {
         CurrencyRequestDto requestDto = mapper.readValue(req.getReader(), CurrencyRequestDto.class);
 
         // Сохраняем через сервис
-        CurrencyResponseDto responseDto = currencyService.save(requestDto);
+        CurrencyResponseDto responseDto = currencyService.add(requestDto);
 
         // Отправляем ответ как JSON с кодом 201
         resp.setStatus(HttpServletResponse.SC_CREATED);

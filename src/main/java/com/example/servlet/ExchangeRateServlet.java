@@ -35,4 +35,6 @@ public class ExchangeRateServlet extends HttpServlet {
             printWriter.write("</ul");
         }
     }
+
+    //TODO: надо реализовать оставшиеся методы по работе с курсами
 }

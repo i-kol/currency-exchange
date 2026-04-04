@@ -1,6 +1,6 @@
 package com.example.dao;
 
-import com.example.exception.DataAccessException;
+import com.example.exception.DatabaseException;
 import com.example.util.ConnectionManager;
 import com.example.entity.Currency;
 
@@ -36,7 +36,7 @@ public class CurrencyDao implements Dao<Integer, Currency> {
             }
             return currencies;
         } catch (SQLException e) {
-            throw new DataAccessException("Failed to getConnection currencies");
+            throw new DatabaseException("Failed to get currencies");
         }
     }
 
@@ -53,13 +53,12 @@ public class CurrencyDao implements Dao<Integer, Currency> {
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new DataAccessException("Failed to getConnection currency: " + code);
+            throw new DatabaseException("Failed to get currency: " + code);
         }
     }
 
     @Override
-    public Long save(Currency currency) {
-
+    public Long add(Currency currency) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_CURRENCY_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -70,15 +69,13 @@ public class CurrencyDao implements Dao<Integer, Currency> {
 
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    long id = generatedKeys.getLong(1);
-//                    connection.commit(); //TODO: определитть, нужна или нет?
-                    return id;
+                    return generatedKeys.getLong(1);
                 } else {
                     throw new SQLException("Adding currency failed, ID not received!");
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Failed to add currency: " + currency.getCode());
+            throw new DatabaseException("Failed to add currency: " + currency.getCode());
         }
     }
 

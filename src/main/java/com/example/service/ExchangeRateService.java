@@ -21,6 +21,8 @@ public class ExchangeRateService {
                 )).collect(Collectors.toList());
     }
 
+    //TODO: надо реализовать оставшиеся методы по работе с курсами
+
     public static ExchangeRateService getInstance() {
         return INSTANCE;
     }
