@@ -41,7 +41,7 @@ public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
         }
     }
 
-    public Optional<ExchangeRate> findByCurrencyIds(int baseCurrencyId, int targetCurrencyId) {
+    public Optional<ExchangeRate> findExchangeRate(int baseCurrencyId, int targetCurrencyId) {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_CURRENCY_IDS_SQL)) {
 
