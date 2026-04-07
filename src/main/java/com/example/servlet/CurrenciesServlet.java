@@ -32,8 +32,8 @@ public class CurrenciesServlet extends HttpServlet {
                         <li>
                             <a href="/exchange?id=%d">%d. %s - %s - %s</a>
                         </li>
-                        """.formatted(currencyDto.getId(), currencyDto.getId(), currencyDto.getCode(),
-                        currencyDto.getFullName(), currencyDto.getSign()));
+                        """.formatted(currencyDto.id(), currencyDto.id(), currencyDto.code(),
+                        currencyDto.fullName(), currencyDto.sign()));
             });
 
             printWriter.write("</ul>");

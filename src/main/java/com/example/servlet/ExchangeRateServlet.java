@@ -29,7 +29,7 @@ public class ExchangeRateServlet extends HttpServlet {
                         <li>
                             <a href="/exchange?id=%d">%f</a>
                         </li>
-                        """.formatted(exchangeRateDto.getId(), exchangeRateDto.getRate()));
+                        """.formatted(exchangeRateDto.id(), exchangeRateDto.rate()));
             });
 
             printWriter.write("</ul");

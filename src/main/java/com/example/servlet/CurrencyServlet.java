@@ -37,8 +37,8 @@ public class CurrencyServlet extends HttpServlet {
                 CurrencyResponseDto currencyResponseDto = currency.get();
                 printWriter.write("""
                             <br>%d. %s - %s - %s</br>
-                        """.formatted(currencyResponseDto.getId(), currencyResponseDto.getCode(),
-                        currencyResponseDto.getFullName(), currencyResponseDto.getSign()));
+                        """.formatted(currencyResponseDto.id(), currencyResponseDto.code(),
+                        currencyResponseDto.fullName(), currencyResponseDto.sign()));
 
             } else {
                 printWriter.write("<li>Валюта с кодом '" + code + "' не найдена.</li>");

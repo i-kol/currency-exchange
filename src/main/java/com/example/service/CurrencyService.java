@@ -33,9 +33,9 @@ public class CurrencyService {
 
     public CurrencyResponseDto add(CurrencyRequestDto currencyRequestDto) {
 
-        String code = currencyRequestDto.getCode();
-        String fullName = currencyRequestDto.getFullName();
-        String sign = currencyRequestDto.getSign();
+        String code = currencyRequestDto.code();
+        String fullName = currencyRequestDto.fullName();
+        String sign = currencyRequestDto.sign();
 
         Currency currency = new Currency(code, fullName, sign);
 
