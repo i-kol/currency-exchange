@@ -32,7 +32,6 @@ public class CurrencyServlet extends HttpServlet {
             printWriter.write("<h1>Выбранная валюта:</h1>");
             printWriter.write("<ul>");
 
-
             if (currency.isPresent()) {
                 CurrencyResponseDto currencyResponseDto = currency.get();
                 printWriter.write("""

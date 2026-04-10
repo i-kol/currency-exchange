@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ExchangeRateDao implements Dao<Integer, ExchangeRate> {
     private static final ExchangeRateDao INSTANCE = new ExchangeRateDao();
     private static final String FIND_ALL_SQL = "SELECT ID, BaseCurrencyId, TargetCurrencyId, Rate FROM ExchangeRates";
-    private static final String FIND_BY_CURRENCY_IDS_SQL = "SELECT Rate FROM ExchangeRates WHERE BaseCurrencyId = ? AND TargetCurrencyId = ?";
+    private static final String FIND_BY_CURRENCY_IDS_SQL = "SELECT ID, BaseCurrencyId, TargetCurrencyId, Rate FROM ExchangeRates WHERE BaseCurrencyId = ? AND TargetCurrencyId = ?";
     private static final String ADD_EXCHANGE_RATE_SQL = "INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (?, ?, ?)";
     private static final String UPDATE_EXCHANGE_RATE_SQL = "UPDATE ExchangeRates SET Rate = ? WHERE ID = ? RETURNING Rate";
 

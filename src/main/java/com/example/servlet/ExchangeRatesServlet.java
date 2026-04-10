@@ -23,19 +23,19 @@ public class ExchangeRatesServlet extends HttpServlet {
         resp.setContentType("text/html");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        try (PrintWriter printWriter = resp.getWriter()) {
-            printWriter.write("<h1>Курсы валют</h1>");
-            printWriter.write("<ul>");
+        try (PrintWriter writer = resp.getWriter()) {
+            writer.write("<h1>Курсы валют</h1>");
+            writer.write("<ul>");
 
             exchangeRateService.findAll().forEach(exchangeRateDto -> {
-                printWriter.write("""
+                writer.write("""
                         <li>
                             <a href="/exchange?id=%d">%f</a>
                         </li>
                         """.formatted(exchangeRateDto.id(), exchangeRateDto.rate()));
             });
 
-            printWriter.write("</ul");
+            writer.write("</ul");
         }
     }
 
